@@ -16,23 +16,6 @@ static PyObject* is_perfect(PyObject *self, PyObject *args) {
     }
 }
 
-static PyObject* is_perfect_nogil(PyObject *self, PyObject *args) {
-    unsigned long n ,i, sum=0;
-    if (!PyArg_ParseTuple(args, "k", &n))
-        return NULL;
-    Py_BEGIN_ALLOW_THREADS;
-    for (i=1; i < n; i++) {
-        if (n % i == 0) {
-            sum += i;
-        }
-    }
-    Py_END_ALLOW_THREADS;
-    if (sum == n) {
-        Py_RETURN_TRUE;
-    } else {
-        Py_RETURN_FALSE;
-    }
-}
 
 static PyMethodDef CPerfectMethods[] = {
     {
@@ -40,12 +23,6 @@ static PyMethodDef CPerfectMethods[] = {
         is_perfect,
         METH_VARARGS,
         "Check if number is perfect with GIL"
-    },
-    {
-        "is_perfect_nogil",
-        is_perfect_nogil,
-        METH_VARARGS,
-        "Check if number is perfect without GIL"
     },
     {NULL, NULL, 0, NULL},        /* Sentinel */
 };
